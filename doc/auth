@@ -1,0 +1,12 @@
+CREATE TABLE users(
+id INT PRIMARY KEY AUTO_INCREMENT,
+username VARCHAR(50) NOT NULL,
+password VARCHAR(50) NOT NULL,
+active BOOLEAN
+);
+
+create table roles(
+id INT PRIMARY KEY AUTO_INCREMENT,
+user_id INT NOT NULL,
+role VARCHAR(50) NOT NULL
+);
