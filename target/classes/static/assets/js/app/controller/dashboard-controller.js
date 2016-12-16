@@ -3,6 +3,8 @@
  */
 app.controller('dashboardController', function($scope, $http, $location, $routeParams, $cookies) {
 
+    console.log($cookies.get('XSRF-TOKEN'));
+
     $scope.initData = function(){
         $http({
             url: "http://localhost:8181/api/dashboard",
