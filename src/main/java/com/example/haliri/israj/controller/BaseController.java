@@ -15,12 +15,12 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api")
-public class DashboardController {
+public class BaseController {
 
-    @RequestMapping(value = "/dashboard",method = RequestMethod.GET)
+    @RequestMapping(value = "/base",method = RequestMethod.GET)
     public Map dashboard(){
         Map map = new HashMap<>();
-        map.put("data","israj.halir@gmail.com");
+        map.put("data","israj.haliri@gmail.com");
         return map;
     }
 }

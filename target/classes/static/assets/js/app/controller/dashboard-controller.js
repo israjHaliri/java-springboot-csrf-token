@@ -7,7 +7,7 @@ app.controller('dashboardController', function($scope, $http, $location, $routeP
 
     $scope.initData = function(){
         $http({
-            url: "http://localhost:8181/api/dashboard",
+            url: "http://localhost:8181/api/base",
             dataType: 'json',
             method: 'GET',
             headers: {
