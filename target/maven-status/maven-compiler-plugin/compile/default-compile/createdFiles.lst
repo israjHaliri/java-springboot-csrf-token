@@ -1,9 +1,8 @@
 com/example/haliri/israj/config/SecurityConfig$1.class
 com/example/haliri/israj/config/SecurityConfig.class
+com/example/haliri/israj/controller/BaseController.class
 com/example/haliri/israj/config/WebConfig.class
-com/example/haliri/israj/config/CorsInterceptor.class
-com/example/haliri/israj/controller/DashboardController.class
 com/example/haliri/israj/config/SecurityConfig$2.class
+com/example/haliri/israj/config/SimpleCORSFilter.class
 com/example/haliri/israj/CompanyProfileApplication.class
-com/example/haliri/israj/CompanyProfileApplication$1.class
 com/example/haliri/israj/config/SecurityConfig$CsrfHeaderFilter.class

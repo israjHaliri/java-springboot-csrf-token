@@ -1,5 +1,5 @@
-/media/israjhaliri/Data/CODE/EXERCISE/java/exercise-java-springboot-csrf-token/src/main/java/com/example/haliri/israj/controller/DashboardController.java
-/media/israjhaliri/Data/CODE/EXERCISE/java/exercise-java-springboot-csrf-token/src/main/java/com/example/haliri/israj/config/WebConfig.java
-/media/israjhaliri/Data/CODE/EXERCISE/java/exercise-java-springboot-csrf-token/src/main/java/com/example/haliri/israj/CompanyProfileApplication.java
-/media/israjhaliri/Data/CODE/EXERCISE/java/exercise-java-springboot-csrf-token/src/main/java/com/example/haliri/israj/config/SecurityConfig.java
-/media/israjhaliri/Data/CODE/EXERCISE/java/exercise-java-springboot-csrf-token/src/main/java/com/example/haliri/israj/config/CorsInterceptor.java
+/Users/israjhaliri/Data/REPO/java-springboot-csrf-token/src/main/java/com/example/haliri/israj/CompanyProfileApplication.java
+/Users/israjhaliri/Data/REPO/java-springboot-csrf-token/src/main/java/com/example/haliri/israj/config/SecurityConfig.java
+/Users/israjhaliri/Data/REPO/java-springboot-csrf-token/src/main/java/com/example/haliri/israj/config/WebConfig.java
+/Users/israjhaliri/Data/REPO/java-springboot-csrf-token/src/main/java/com/example/haliri/israj/config/SimpleCORSFilter.java
+/Users/israjhaliri/Data/REPO/java-springboot-csrf-token/src/main/java/com/example/haliri/israj/controller/BaseController.java

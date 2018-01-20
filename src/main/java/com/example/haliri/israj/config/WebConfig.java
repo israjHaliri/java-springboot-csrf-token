@@ -6,6 +6,7 @@ import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.*;
 
 import java.io.File;
@@ -16,11 +17,6 @@ import java.io.File;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry viewControllerRegistry) {
-        viewControllerRegistry.addViewController("/login").setViewName("/login");
-    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

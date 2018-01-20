@@ -25,6 +25,10 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.util.WebUtils;
@@ -35,29 +39,21 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by israjhaliri on 25/10/16.
  */
 //    passsword  = $2a$10$M3p/awf2XC9Xiz4tdpge1eXbXb2nNwi1TA0pK7ntRWBHXBIYUrD3e
 
-@Configuration
+//@Configuration
 @EnableWebSecurity
-//if enable web mvc root mapping doesnt detect
-//@EnableWebMvc
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
-    private  static final String SQL_LOGIN = "select username,password,active as enabled from users where username = ?";
-    private  static final String SQL_PERMISSION = "select u.username, r.role as authority from users u \n" +
-            "join roles r on u.id = r.user_id where u.username = ?";
-
-    @Autowired private DataSource ds;
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication().dataSource(ds).passwordEncoder(passwordEncoder()).usersByUsernameQuery(SQL_LOGIN).authoritiesByUsernameQuery(SQL_PERMISSION);
         auth.inMemoryAuthentication().withUser("israj").password("026").roles("ADMIN");
     }
 
@@ -72,18 +68,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/api/**").hasAnyRole("ADMIN")
+                .antMatchers("/**","/api/**").permitAll()
                 .anyRequest().authenticated()
-                .and().authorizeRequests()
-                .antMatchers("/**").permitAll().anyRequest().permitAll()
-                .and().formLogin().permitAll().loginPage("/login").permitAll()
+                .and()
+                .formLogin().permitAll().loginPage("/login").permitAll()
                 .successHandler(successHandler())
                 .failureHandler(failureHandler())
-                .and().csrf().csrfTokenRepository(csrfTokenRepository()).and()
+//                .and()
+//                .csrf().csrfTokenRepository(csrfTokenRepository())
+                .and()
                 .logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
-                .and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+                .and()
+//                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
                 .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
 
     }
@@ -135,5 +134,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
-
+    @Configuration
+    public class RestConfig {
+        @Bean
+        public CorsFilter corsFilter() {
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowCredentials(true);
+            config.addAllowedOrigin("3000");
+            config.addAllowedHeader("*");
+            config.addAllowedMethod("OPTIONS");
+            config.addAllowedMethod("GET");
+            config.addAllowedMethod("POST");
+            config.addAllowedMethod("PUT");
+            config.addAllowedMethod("DELETE");
+            source.registerCorsConfiguration("/**", config);
+            return new CorsFilter(source);
+        }
+    }
 }
