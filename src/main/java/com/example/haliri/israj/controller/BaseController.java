@@ -1,12 +1,11 @@
 package com.example.haliri.israj.controller;
 
-import com.sun.org.apache.regexp.internal.RE;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class BaseController {
 
         String host = httpServletRequest.getHeader("Host");
         if (!host.equals("localhost:8182")){
-            map.put("data","Not Priviliges");
+            map.put("data","israj");
             return map;
         }
 

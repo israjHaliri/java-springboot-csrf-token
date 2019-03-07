@@ -1,8 +1,5 @@
 package com.example.haliri.israj.config;
 
-import com.allanditzel.springframework.security.web.csrf.CsrfTokenResponseHeaderBindingFilter;
-import org.apache.log4j.Logger;
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +23,9 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
@@ -39,14 +34,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Created by israjhaliri on 25/10/16.
  */
-//    passsword  = $2a$10$M3p/awf2XC9Xiz4tdpge1eXbXb2nNwi1TA0pK7ntRWBHXBIYUrD3e
-
-//@Configuration
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -54,15 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("israj").password("026").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("israj").password("12345678").roles("ADMIN");
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -71,18 +62,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/**","/api/**").permitAll()
+                .antMatchers("/**", "/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll().loginPage("/login").permitAll()
                 .successHandler(successHandler())
                 .failureHandler(failureHandler())
-//                .and()
-//                .csrf().csrfTokenRepository(csrfTokenRepository())
+                .and()
+                .csrf().csrfTokenRepository(csrfTokenRepository())
+                .and()
+                .logout().logoutUrl("/logout")
                 .and()
                 .logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
                 .and()
-//                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
                 .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
 
     }
@@ -103,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             if (csrf != null) {
                 Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
                 String token = csrf.getToken();
-                if (cookie==null || token!=null && !token.equals(cookie.getValue())) {
+                if (cookie == null || token != null && !token.equals(cookie.getValue())) {
                     cookie = new Cookie("XSRF-TOKEN", token);
                     cookie.setPath("/");
                     response.addCookie(cookie);
